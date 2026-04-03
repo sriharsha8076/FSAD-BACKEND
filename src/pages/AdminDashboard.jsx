@@ -59,10 +59,10 @@ export const AdminDashboard = () => {
     const fetchAchievements = async () => {
       try {
         const [achievementsRes, dashboardRes] = await Promise.all([
-          fetch('http://localhost:8080/api/achievements/pending', {
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/achievements/pending`, {
             headers: { 'Authorization': `Bearer ${user?.token}` }
           }),
-          fetch('http://localhost:8080/api/dashboard/admin', {
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/dashboard/admin`, {
             headers: { 'Authorization': `Bearer ${user?.token}` }
           })
         ]);

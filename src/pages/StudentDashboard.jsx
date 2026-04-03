@@ -26,10 +26,10 @@ export const StudentDashboard = () => {
     const fetchAchievements = async () => {
       try {
         const [achievementsRes, dashboardRes] = await Promise.all([
-          fetch('http://localhost:8080/api/achievements/my', {
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/achievements/my`, {
             headers: { 'Authorization': `Bearer ${user?.token}` }
           }),
-          fetch('http://localhost:8080/api/dashboard/student', {
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/dashboard/student`, {
             headers: { 'Authorization': `Bearer ${user?.token}` }
           })
         ]);
@@ -63,7 +63,7 @@ export const StudentDashboard = () => {
       addToast(`Preparing to download certificate...`, 'info');
 
       try {
-        const response = await fetch(`http://localhost:8080/api/achievements/${achievement.id}/file`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/achievements/${achievement.id}/file`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${user?.token}`

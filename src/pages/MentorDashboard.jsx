@@ -15,10 +15,10 @@ export const MentorDashboard = () => {
     const fetchPendingVerifications = React.useCallback(async () => {
         try {
             const [pendingRes, dashboardRes] = await Promise.all([
-                fetch('http://localhost:8080/api/achievements/pending', {
+                fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/achievements/pending`, {
                     headers: { 'Authorization': `Bearer ${user?.token}` }
                 }),
-                fetch('http://localhost:8080/api/dashboard/mentor', {
+                fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/dashboard/mentor`, {
                     headers: { 'Authorization': `Bearer ${user?.token}` }
                 })
             ]);
@@ -50,7 +50,7 @@ export const MentorDashboard = () => {
     const handleVerify = async (id, status) => {
         try {
             const endpoint = status === 'VERIFIED' ? `verify/${id}` : `deny/${id}`;
-            const response = await fetch(`http://localhost:8080/api/achievements/${endpoint}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/achievements/${endpoint}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export const MentorDashboard = () => {
 
     const handleVerifyAll = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/achievements/verify-all', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/achievements/verify-all`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${user?.token}`

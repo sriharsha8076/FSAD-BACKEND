@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     const validateSession = async () => {
       if (user?.token && user.id !== 'harsha21') {
         try {
-          const response = await fetch('http://localhost:8080/api/users/me', {
+          const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/users/me`, {
             headers: { 'Authorization': `Bearer ${user.token}` }
           });
           if (response.status === 401 || response.status === 403 || response.status === 404) {
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   // Load admins dynamically for SuperAdmin
   const fetchAdmins = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/users`, {
         headers: { 'Authorization': `Bearer ${user?.token}` }
       });
       if (!response.ok) throw new Error('Failed to fetch users');
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   const registerUser = async (userData) => {
     let role = userData.role.toUpperCase();
-    const response = await fetch('http://localhost:8080/api/auth/register', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
       return sessionUser;
     }
 
-    const response = await fetch('http://localhost:8080/api/auth/login', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const createUniversityAdmin = async (adminData) => {
-    const response = await fetch('http://localhost:8080/api/auth/register', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const deleteUniversityAdmin = async (adminId) => {
-    const response = await fetch(`http://localhost:8080/api/users/${adminId}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/users/${adminId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${user?.token}`
