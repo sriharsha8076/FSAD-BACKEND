@@ -29,18 +29,16 @@ export const LoginPage = () => {
   const { login } = useAuth();
   const { addToast } = useToast();
   const onSubmit = async (data) => {
-    // Hardcoded Super Admin Logic
-    if (data.identifier === 'harsha21' && data.password === 'Harsha@0821') {
-      login(data.identifier, data.password, 'superadmin', 'Harsha (Creator)');
-      addToast(`Welcome back, Creator!`, 'success');
-      navigate(`/ superadmin / dashboard`);
-      return;
-    }
     try {
       const user = await login(data.identifier, data.password);
       const actualRole = user.role;
-      addToast(`Welcome! Logged in as ${actualRole} `, 'success');
-      navigate(`/ ${actualRole === 'admin' || actualRole === 'university_admin' ? 'admin' : actualRole}/dashboard`);
+      addToast(`Welcome! Logged in as ${actualRole}`, 'success');
+      
+      if (actualRole === 'super_admin' || actualRole === 'superadmin') {
+          navigate('/superadmin/dashboard');
+      } else {
+          navigate(`/${actualRole === 'admin' || actualRole === 'university_admin' ? 'admin' : actualRole}/dashboard`);
+      }
     } catch (error) {
       addToast(error.message || "Failed to login", 'error');
     }

@@ -74,20 +74,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (identifier, password, roleFallback = '') => {
-    // SuperAdmin hardcode map
-    if (identifier === 'harsha21' || roleFallback === 'superadmin') {
-      const sessionUser = {
-        id: 'harsha21',
-        email: 'harsha21@saams.com',
-        role: 'superadmin',
-        name: 'Harsha (Creator)',
-        isAuthenticated: true,
-        token: 'superadmin-mock-token'
-      };
-      setUser(sessionUser);
-      localStorage.setItem('user', JSON.stringify(sessionUser));
-      return sessionUser;
-    }
+    // Real authentication hit API
 
     const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/auth/login`, {
       method: 'POST',
