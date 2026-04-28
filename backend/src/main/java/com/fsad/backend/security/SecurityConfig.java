@@ -47,14 +47,23 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+
+        // Local dev + production Vercel URL (set FRONTEND_URL env var on Railway/Render)
+        String frontendUrl = System.getenv("FRONTEND_URL") != null
+                ? System.getenv("FRONTEND_URL") : "https://fsad-frontend.vercel.app";
+
         configuration.setAllowedOrigins(
-                Arrays.asList("http://localhost:5173", "http://localhost:5174", "http://localhost:3000",
-                        "http://localhost:5177")); // Add your
-        // frontend
-        // URLs here
+                Arrays.asList(
+                        "http://localhost:5173",
+                        "http://localhost:5174",
+                        "http://localhost:3000",
+                        "http://localhost:5177",
+                        frontendUrl
+                ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
